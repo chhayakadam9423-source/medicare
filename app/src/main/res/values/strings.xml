@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Medicare</string>
+    <string name="hospital_management_system">Hospital Management System</string>
+    <string name="tagline">Comprehensive healthcare records, real-time doctor appointments, and patient care management</string>
+    <string name="login">Login</string>
+    <string name="create_account">Create Account</string>
+    <string name="email">Email Address</string>
+    <string name="password">Password</string>
+    <string name="full_name">Full Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="role">Account Role</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="sign_in_sub">Enter your healthcare credentials to access the portal</string>
+    <string name="sign_up_sub">Register a new patient or clinical staff profile</string>
+    <string name="already_have_account">Already registered? Log in</string>
+    <string name="dont_have_account">Don\'t have an account? Create one</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="book_appointment">Book Appointment</string>
+    <string name="my_appointments">Appointments</string>
+    <string name="doctors_directory">Doctors Directory</string>
+    <string name="patients_directory">Patient Records</string>
+    <string name="logout">Sign Out</string>
+</resources>

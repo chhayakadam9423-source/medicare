@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Medical Teal & Primary Brand Colors -->
+    <color name="primary">#0D9488</color>
+    <color name="primary_dark">#0F766E</color>
+    <color name="primary_light">#14B8A6</color>
+    <color name="primary_surface">#F0FDFA</color>
+
+    <!-- Medical Accent & Secondary Colors -->
+    <color name="secondary">#0284C7</color>
+    <color name="secondary_dark">#0369A1</color>
+    <color name="secondary_surface">#F0F9FF</color>
+
+    <!-- Neutral & Background Palette -->
+    <color name="bg_main">#F8FAFC</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="card_bg">#FFFFFF</color>
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#475569</color>
+    <color name="text_muted">#94A3B8</color>
+    <color name="divider">#E2E8F0</color>
+    <color name="border">#CBD5E1</color>
+
+    <!-- Status & Medical Badges -->
+    <color name="status_confirmed">#16A34A</color>
+    <color name="status_confirmed_bg">#DCFCE7</color>
+    <color name="status_pending">#D97706</color>
+    <color name="status_pending_bg">#FEF3C7</color>
+    <color name="status_cancelled">#DC2626</color>
+    <color name="status_cancelled_bg">#FEE2E2</color>
+
+    <!-- Emergency / Alerts -->
+    <color name="error">#EF4444</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+</resources>

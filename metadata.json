@@ -1,0 +1,6 @@
+{
+  "name": "Medicare",
+  "description": "Hospital Management System - Native Android Studio application with Java, XML, Gradle, and Supabase",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
