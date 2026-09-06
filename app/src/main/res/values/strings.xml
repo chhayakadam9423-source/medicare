@@ -20,4 +20,13 @@
     <string name="doctors_directory">Doctors Directory</string>
     <string name="patients_directory">Patient Records</string>
     <string name="logout">Sign Out</string>
+    <string name="login_as">Login As</string>
+    <string name="role_patient">Patient</string>
+    <string name="role_doctor">Doctor</string>
+    <string name="role_admin">Admin</string>
+    <string name="dont_have_account_register">Don\'t have an account? Register</string>
+    <string name="doctor_account_notice">Doctor accounts are provisioned by the hospital administrator.</string>
+    <string name="admin_account_notice">Admin accounts are created by the system administrator.</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="role_mismatch_error">Selected role does not match your account.</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.medicare;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -8,29 +9,70 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.material.card.MaterialCardView;
 import com.example.medicare.models.User;
 import com.example.medicare.network.SupabaseClient;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String ROLE_PATIENT = "patient";
+    public static final String ROLE_DOCTOR = "doctor";
+    public static final String ROLE_ADMIN = "admin";
+
+    private String selectedRole = ROLE_PATIENT;
+
+    // Role Selection Views
+    private MaterialCardView cardRolePatient, cardRoleDoctor, cardRoleAdmin;
+    private ImageView ivRolePatient, ivRoleDoctor, ivRoleAdmin;
+    private TextView tvRolePatient, tvRoleDoctor, tvRoleAdmin;
+
+    // Form Fields & Buttons
     private EditText etEmail, etPassword;
     private Button btnSubmitLogin, btnCreateAccount;
     private TextView tvGoToRegister, tvForgotPassword;
     private ImageButton btnBack;
     private ProgressBar progressBar;
 
+    // Registration & Notice Containers
+    private LinearLayout layoutPatientRegister;
+    private View layoutRoleNotice;
+    private TextView tvRoleNotice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        initViews();
+        setupListeners();
+        updateRoleUI(selectedRole);
+    }
+
+    private void initViews() {
+        // Role selectors
+        cardRolePatient = findViewById(R.id.cardRolePatient);
+        cardRoleDoctor = findViewById(R.id.cardRoleDoctor);
+        cardRoleAdmin = findViewById(R.id.cardRoleAdmin);
+
+        ivRolePatient = findViewById(R.id.ivRolePatient);
+        ivRoleDoctor = findViewById(R.id.ivRoleDoctor);
+        ivRoleAdmin = findViewById(R.id.ivRoleAdmin);
+
+        tvRolePatient = findViewById(R.id.tvRolePatient);
+        tvRoleDoctor = findViewById(R.id.tvRoleDoctor);
+        tvRoleAdmin = findViewById(R.id.tvRoleAdmin);
+
+        // Inputs & Actions
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnSubmitLogin = findViewById(R.id.btnSubmitLogin);
@@ -40,8 +82,23 @@ public class LoginActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         progressBar = findViewById(R.id.progressBar);
 
-        btnBack.setOnClickListener(v -> finish());
+        // Role notices
+        layoutPatientRegister = findViewById(R.id.layoutPatientRegister);
+        layoutRoleNotice = findViewById(R.id.layoutRoleNotice);
+        tvRoleNotice = findViewById(R.id.tvRoleNotice);
+    }
 
+    private void setupListeners() {
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
+
+        // Role selector click listeners
+        cardRolePatient.setOnClickListener(v -> selectRole(ROLE_PATIENT));
+        cardRoleDoctor.setOnClickListener(v -> selectRole(ROLE_DOCTOR));
+        cardRoleAdmin.setOnClickListener(v -> selectRole(ROLE_ADMIN));
+
+        // Register navigation
         View.OnClickListener registerListener = v -> {
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         };
@@ -52,11 +109,77 @@ public class LoginActivity extends AppCompatActivity {
             tvGoToRegister.setOnClickListener(registerListener);
         }
 
+        // Forgot password
         if (tvForgotPassword != null) {
             tvForgotPassword.setOnClickListener(v -> handleForgotPassword());
         }
 
+        // Submit login
         btnSubmitLogin.setOnClickListener(v -> handleLogin());
+    }
+
+    private void selectRole(String role) {
+        this.selectedRole = role;
+        updateRoleUI(role);
+    }
+
+    private void updateRoleUI(String role) {
+        boolean isPatient = ROLE_PATIENT.equalsIgnoreCase(role);
+        boolean isDoctor = ROLE_DOCTOR.equalsIgnoreCase(role);
+        boolean isAdmin = ROLE_ADMIN.equalsIgnoreCase(role);
+
+        // Style Patient Card
+        styleRoleCard(cardRolePatient, ivRolePatient, tvRolePatient, isPatient);
+        // Style Doctor Card
+        styleRoleCard(cardRoleDoctor, ivRoleDoctor, tvRoleDoctor, isDoctor);
+        // Style Admin Card
+        styleRoleCard(cardRoleAdmin, ivRoleAdmin, tvRoleAdmin, isAdmin);
+
+        // Update Dynamic Registration / Notice section
+        if (isPatient) {
+            if (layoutPatientRegister != null) layoutPatientRegister.setVisibility(View.VISIBLE);
+            if (layoutRoleNotice != null) layoutRoleNotice.setVisibility(View.GONE);
+        } else if (isDoctor) {
+            if (layoutPatientRegister != null) layoutPatientRegister.setVisibility(View.GONE);
+            if (layoutRoleNotice != null) layoutRoleNotice.setVisibility(View.VISIBLE);
+            if (tvRoleNotice != null) {
+                tvRoleNotice.setText(R.string.doctor_account_notice);
+            }
+        } else {
+            if (layoutPatientRegister != null) layoutPatientRegister.setVisibility(View.GONE);
+            if (layoutRoleNotice != null) layoutRoleNotice.setVisibility(View.VISIBLE);
+            if (tvRoleNotice != null) {
+                tvRoleNotice.setText(R.string.admin_account_notice);
+            }
+        }
+    }
+
+    private void styleRoleCard(MaterialCardView card, ImageView icon, TextView text, boolean isSelected) {
+        if (card == null || icon == null || text == null) return;
+
+        if (isSelected) {
+            card.setCardBackgroundColor(ContextCompat.getColor(this, R.color.primary_green_surface));
+            card.setStrokeColor(ContextCompat.getColor(this, R.color.primary_green));
+            card.setStrokeWidth(dpToPx(2));
+            card.setCardElevation(dpToPx(2));
+
+            icon.setColorFilter(ContextCompat.getColor(this, R.color.primary_green));
+            text.setTextColor(ContextCompat.getColor(this, R.color.primary_green));
+            text.setTypeface(null, Typeface.BOLD);
+        } else {
+            card.setCardBackgroundColor(ContextCompat.getColor(this, R.color.medicare_card));
+            card.setStrokeColor(ContextCompat.getColor(this, R.color.medicare_border));
+            card.setStrokeWidth(dpToPx(1));
+            card.setCardElevation(0);
+
+            icon.setColorFilter(ContextCompat.getColor(this, R.color.medicare_text_secondary));
+            text.setTextColor(ContextCompat.getColor(this, R.color.medicare_text_secondary));
+            text.setTypeface(null, Typeface.NORMAL);
+        }
+    }
+
+    private int dpToPx(int dp) {
+        return Math.round(dp * getResources().getDisplayMetrics().density);
     }
 
     private void handleLogin() {
@@ -87,6 +210,25 @@ public class LoginActivity extends AppCompatActivity {
         SupabaseClient.getInstance().signIn(email, password, new SupabaseClient.Callback<User>() {
             @Override
             public void onSuccess(User user) {
+                String actualRole = user.getRole();
+                if (actualRole == null) {
+                    actualRole = ROLE_PATIENT;
+                }
+                actualRole = actualRole.toLowerCase().trim();
+
+                // Validate selected role against user's actual database profile role
+                if (!selectedRole.equalsIgnoreCase(actualRole)) {
+                    setLoading(false);
+                    // Do not retain session for mismatched role
+                    SupabaseClient.getInstance().signOut(LoginActivity.this);
+                    Toast.makeText(
+                            LoginActivity.this,
+                            getString(R.string.role_mismatch_error),
+                            Toast.LENGTH_LONG
+                    ).show();
+                    return;
+                }
+
                 setLoading(false);
 
                 // Save session in SharedPreferences
@@ -95,12 +237,6 @@ public class LoginActivity extends AppCompatActivity {
                         user,
                         SupabaseClient.getInstance().getAuthToken()
                 );
-
-                String role = user.getRole();
-                if (role == null) {
-                    role = "patient";
-                }
-                role = role.toLowerCase().trim();
 
                 String displayName = (user.getFullName() != null && !user.getFullName().isEmpty())
                         ? user.getFullName()
@@ -112,9 +248,9 @@ public class LoginActivity extends AppCompatActivity {
                 // doctor  -> DoctorDashboardActivity
                 // admin   -> AdminDashboardActivity
                 Intent intent;
-                if ("doctor".equals(role)) {
+                if (ROLE_DOCTOR.equalsIgnoreCase(actualRole)) {
                     intent = new Intent(LoginActivity.this, DoctorDashboardActivity.class);
-                } else if ("admin".equals(role)) {
+                } else if (ROLE_ADMIN.equalsIgnoreCase(actualRole)) {
                     intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                 } else {
                     intent = new Intent(LoginActivity.this, DashboardActivity.class);
@@ -193,6 +329,11 @@ public class LoginActivity extends AppCompatActivity {
         if (tvForgotPassword != null) {
             tvForgotPassword.setEnabled(!loading);
         }
+        if (tvGoToRegister != null) {
+            tvGoToRegister.setEnabled(!loading);
+        }
+        cardRolePatient.setEnabled(!loading);
+        cardRoleDoctor.setEnabled(!loading);
+        cardRoleAdmin.setEnabled(!loading);
     }
 }
-

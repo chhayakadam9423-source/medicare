@@ -34,4 +34,17 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
+
+    <!-- Medicare Hospital Green & Medical Theme -->
+    <color name="primary_green">#2E7D32</color>
+    <color name="primary_green_dark">#1B5E20</color>
+    <color name="primary_green_light">#66BB6A</color>
+    <color name="primary_green_surface">#E8F5E9</color>
+    <color name="primary_green_surface_border">#A5D6A7</color>
+    <color name="accent_gold">#F9A825</color>
+    <color name="medicare_bg">#F8FBF7</color>
+    <color name="medicare_card">#FFFFFF</color>
+    <color name="medicare_text_primary">#1B1B1B</color>
+    <color name="medicare_text_secondary">#6B7280</color>
+    <color name="medicare_border">#E5E7EB</color>
 </resources>
