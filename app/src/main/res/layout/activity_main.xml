@@ -104,7 +104,7 @@
             android:layout_height="56dp"
             android:layout_marginTop="12dp"
             android:strokeColor="@color/primary"
-            android:strokeWidth="1.5dp"
+            android:strokeWidth="1.5"
             android:text="@string/create_account"
             android:textAllCaps="false"
             android:textColor="@color/primary"
